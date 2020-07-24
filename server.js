@@ -21,7 +21,7 @@ mongoose.connect("mongodb://localhost/workout", {
 
 // routes
 // "/api/workouts"
-app.get("/api/workouts", (req, res) => {
+app.get("/api/workouts", (_, res) => {
     db.Workout.find({})
       .then(dbWorkout => {
           console.log(dbWorkout);
@@ -32,7 +32,29 @@ app.get("/api/workouts", (req, res) => {
       });
   });
 // "/api/workouts/:id" 
+app.get("/api/workouts/:id", (req, res) => {
+    db.Workout.findOne({_id:req.params.id})
+    .then(dbWorkout => {
+        console.log(dbWorkout);
+      res.json(dbWorkout);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+  });
+
 // "/api/workouts/range"
+// app.get("/api/workouts/range", (_, res) => {
+//     db.Workout.find({})
+//     .populate("seeds")
+//       .then(dbWorkout => {
+//           console.log(dbWorkout);
+//         res.json(dbWorkout);
+//       })
+//       .catch(err => {
+//         res.json(err);
+//       });
+//   });
 // Start the server
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);

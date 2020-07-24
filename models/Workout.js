@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const opts = { toJSON: { virtuals: true } };
 
 const Schema = mongoose.Schema;
 
@@ -33,7 +34,8 @@ const WorkoutSchema = new Schema({
     min: 1,
     max: 600,
   },
-});
+},opts);
+
 
 const Workout = mongoose.model("Workout", WorkoutSchema);
 
