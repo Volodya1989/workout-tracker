@@ -19,6 +19,20 @@ mongoose.connect("mongodb://localhost/workout", {
   useFindAndModify: false
 });
 
+// routes
+// "/api/workouts"
+app.get("/api/workouts", (req, res) => {
+    db.Workout.find({})
+      .then(dbWorkout => {
+          console.log(dbWorkout);
+        res.json(dbWorkout);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
+// "/api/workouts/:id" 
+// "/api/workouts/range"
 // Start the server
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
