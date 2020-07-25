@@ -11,6 +11,10 @@ app.use(express.urlencoded({ extended: true }, { useUnifiedTopology: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
+mongoose.connect("mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+});
 // Routes
 const routes = require("./controllers/workoutController.js");
 app.use(routes);
