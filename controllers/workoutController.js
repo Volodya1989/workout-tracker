@@ -14,30 +14,31 @@ mongoose.connect("mongodb://localhost/workout", {
 
 // view routes
 router.get("/", (_, res) => {
-  fs.readFile(`${filePath}index.html`, "utf8", (err, res) => {
+  fs.readFile(`${filePath}index.html`, "utf8", (err, resp) => {
     if (err) throw err;
-    else res.send(res);
+    else res.send(resp);
   });
 });
 
 router.get("/stats", (_, res) => {
-  fs.readFile(`${filePath}stats.html`, "utf8", (err, res) => {
+  fs.readFile(`${filePath}stats.html`, "utf8", (err, resp) => {
     if (err) throw err;
-    else res.send(res);
+    else res.send(resp);
   });
 });
 
 router.get("/exercise", (_, res) => {
-  fs.readFile(`${filePath}exercise.html`, "utf8", (err, res) => {
+  fs.readFile(`${filePath}exercise.html`, "utf8", (err, resp) => {
     if (err) throw err;
-    else res.send(res);
+    else res.send(resp);
   });
 });
 
 // "/api/workouts"
 // ==========================================
 router.get("/api/workouts", (_, res) => {
-  db.Day.find({})
+  db.Workout.find({})
+  .populate("exercises")
     .then((dbWorkout) => {
       console.log(dbWorkout);
       res.json(dbWorkout);
@@ -46,10 +47,8 @@ router.get("/api/workouts", (_, res) => {
       res.json(err);
     });
 });
-// "/api/workouts/:id"
-router.get("/api/workouts/:id", (req, res) => {
-  db.Exercise.findOne({ _id: req.params.id })
-    .populate("exercises")
+router.get("/api/workouts/range", (_, res) => {
+  db.Workout.find({})
     .then((dbWorkout) => {
       console.log(dbWorkout);
       res.json(dbWorkout);
@@ -59,10 +58,11 @@ router.get("/api/workouts/:id", (req, res) => {
     });
 });
 
-// "/api/workouts/range"
-router.get("/api/workouts/range", (_, res) => {
-  db.Exercise.find({})
-    .populate("exercises")
+
+// "/api/workouts/:id"
+router.post("/api/workouts/:id", ({ body }, res) => {
+  db.Workout.create(body)
+  .then(({ _id }) => db.Exercise.findOneAndUpdate({}, { $push: { exercises: _id }}, { new: true }))
     .then((dbWorkout) => {
       console.log(dbWorkout);
       res.json(dbWorkout);
@@ -71,4 +71,6 @@ router.get("/api/workouts/range", (_, res) => {
       res.json(err);
     });
 });
+
+
 module.exports = router;

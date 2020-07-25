@@ -26,16 +26,32 @@ const ExerciseSchema = new Schema({
   },
   reps: {
     type: Number,
-    min: 1,
+    max: 600,
+  },
+  distance: {
+    type: Number,
     max: 600,
   },
   sets: {
     type: Number,
-    min: 1,
     max: 600,
   },
 },opts);
-
+ExerciseSchema.virtual("totalWeight").get(()=>{
+  return this.weight
+});
+ExerciseSchema.virtual("totalDistance").get(()=>{
+  return this.distance;
+});
+ExerciseSchema.virtual("totalSets").get(()=>{
+  return this.sets;
+});
+ExerciseSchema.virtual("totalReps").get(()=>{
+  return this.reps;
+});
+ExerciseSchema.virtual("totalDuration").get(()=>{
+  return this.duration;
+});
 
 const Exercise = mongoose.model("Exercise", ExerciseSchema);
 
