@@ -5,7 +5,6 @@ const filePath = path.join(__dirname, "./../public/");
 const router = express.Router();
 const db = require("../models");
 
-
 router.get("/stats", (_, res) => {
   res.sendFile(`${filePath}stats.html`, (err, _) => {
     if (err) throw err;
@@ -14,7 +13,7 @@ router.get("/stats", (_, res) => {
 
 router.get("/exercise", (_, res) => {
   res.sendFile(`${filePath}exercise.html`, (err, _) => {
-       if (err) throw err;
+    if (err) throw err;
   });
 });
 
@@ -43,9 +42,16 @@ router.post("/api/workouts", (_, res) => {
 });
 
 //route 3
-router.put("/api/workouts/:id", async (req, res) => {
+router.put("/api/workouts/:id", (req, res) => {
   const id = req.params.id;
-  const work = await db.Workout.findByIdAndUpdate({ _id: id }, {$push:{exercises:body}})
+  db.Workout.findByIdAndUpdate(
+    { _id: id },
+    {
+      $inc: { totalDuration: req.body.duration },
+      $push: { exercises: req.body },
+    },
+    { new: true }
+  )
     .then((work) => {
       res.json(work);
     })
@@ -56,7 +62,8 @@ router.put("/api/workouts/:id", async (req, res) => {
 
 //route 4
 router.get("/api/workouts/range", (_, res) => {
-  db.Workout.find({}).limit(7)
+  db.Workout.find({})
+    .limit(7)
     .then((dbWorkout) => {
       console.log(dbWorkout);
       res.json(dbWorkout);
