@@ -14,23 +14,23 @@ mongoose.connect("mongodb://localhost/workout", {
 
 // view routes
 router.get("/", (_, res) => {
-  fs.readFile(`${filePath}index.html`, "utf8", (err, response) => {
+  fs.readFile(`${filePath}index.html`, "utf8", (err, res) => {
     if (err) throw err;
-    else res.send(response);
+    else res.send(res);
   });
 });
 
 router.get("/stats", (_, res) => {
-  fs.readFile(`${filePath}stats.html`, "utf8", (err, response) => {
+  fs.readFile(`${filePath}stats.html`, "utf8", (err, res) => {
     if (err) throw err;
-    else res.send(response);
+    else res.send(res);
   });
 });
 
 router.get("/exercise", (_, res) => {
-  fs.readFile(`${filePath}exercise.html`, "utf8", (err, response) => {
+  fs.readFile(`${filePath}exercise.html`, "utf8", (err, res) => {
     if (err) throw err;
-    else res.send(response);
+    else res.send(res);
   });
 });
 
