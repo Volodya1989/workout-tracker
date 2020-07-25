@@ -5,7 +5,6 @@ const path = require("path");
 const filePath = path.join(__dirname, "./../public/");
 const router = express.Router();
 const db = require("../models");
-
 mongoose.connect("mongodb://localhost/workout", {
   useNewUrlParser: true,
   useFindAndModify: false,
@@ -13,12 +12,13 @@ mongoose.connect("mongodb://localhost/workout", {
 });
 
 // view routes
-router.get("/", (_, res) => {
-  fs.readFile(`${filePath}index.html`, "utf8", (err, resp) => {
-    if (err) throw err;
-    else res.send(resp);
-  });
-});
+// router.get("/", (_, res) => {
+//   // res.sendFile("index.html")
+//   fs.readFile(`${filePath}index.html`, "utf8", (err, resp) => {
+//     if (err) throw err;
+//     else res.send(resp);
+//   });
+// });
 
 router.get("/stats", (_, res) => {
   fs.readFile(`${filePath}stats.html`, "utf8", (err, resp) => {
@@ -36,9 +36,10 @@ router.get("/exercise", (_, res) => {
 
 // "/api/workouts"
 // ==========================================
+//route 1
 router.get("/api/workouts", (_, res) => {
   db.Workout.find({})
-  .populate("exercises")
+  // .populate("exercises")
     .then((dbWorkout) => {
       console.log(dbWorkout);
       res.json(dbWorkout);
@@ -47,6 +48,28 @@ router.get("/api/workouts", (_, res) => {
       res.json(err);
     });
 });
+
+//route 2
+router.post("/api/workouts", async (req, res)=> {
+  db.Workout.create({type: "workout"})
+  .then((dbWorkout) => {
+    console.log(dbWorkout);
+    res.json(dbWorkout);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+})
+
+//route 3
+// router.put("/api/workouts/:id", ({body, params}, res) => {
+//   // console.log(body, params)
+//   const wkId = params.id;
+//   let savEx = [];
+      
+// })
+
+//route 4
 router.get("/api/workouts/range", (_, res) => {
   db.Workout.find({})
     .then((dbWorkout) => {
@@ -57,20 +80,5 @@ router.get("/api/workouts/range", (_, res) => {
       res.json(err);
     });
 });
-
-
-// "/api/workouts/:id"
-router.post("/api/workouts/:id", ({ body }, res) => {
-  db.Workout.create(body)
-  .then(({ _id }) => db.Exercise.findOneAndUpdate({}, { $push: { exercises: _id }}, { new: true }))
-    .then((dbWorkout) => {
-      console.log(dbWorkout);
-      res.json(dbWorkout);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
-
 
 module.exports = router;
