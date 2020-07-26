@@ -11,8 +11,8 @@ app.use(express.urlencoded({ extended: true }, { useUnifiedTopology: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
-let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workout"
-
+// connection to mongo db
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workout";
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useFindAndModify: false,
