@@ -25,7 +25,7 @@ This Workout Tracker Application provides opportunity to view create and track d
 
 The following screenshot demonstrates the application functionality:
 
-![HomePage demo](./assets/homapage.png)
+![HomePage demo](./assets/img/homepage.png)
 
 ## Credits
 
