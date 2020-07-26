@@ -1,19 +1,20 @@
 const db = require("../models");
 
 module.exports = (app) => {
-  //route 1
+  //api route #1
+  //this route gets the last workout user had
   app.get("/api/workouts", (_, res) => {
     db.Workout.find({})
-      .then((work) => {
-        console.log(work);
-        res.json(work);
+      .then((dbWorkout) => {
+        res.json(dbWorkout);
       })
       .catch((err) => {
         res.json(err);
       });
   });
 
-  //route 2
+  //api route #2
+  //this route creates new workout for user
   app.post("/api/workouts", (_, res) => {
     db.Workout.create({})
       .then((dbWorkout) => {
@@ -24,7 +25,8 @@ module.exports = (app) => {
       });
   });
 
-  //route 3
+  //api route #3
+  //this route updates existing workout by adding new exercise
   app.put("/api/workouts/:id", (req, res) => {
     const id = req.params.id;
     db.Workout.findByIdAndUpdate(
@@ -35,20 +37,20 @@ module.exports = (app) => {
       },
       { new: true }
     )
-      .then((work) => {
-        res.json(work);
+      .then((dbWorkout) => {
+        res.json(dbWorkout);
       })
       .catch((err) => {
         res.json(err);
       });
   });
 
-  //route 4
+  //api route #4
+  //this route gets all workout in range
   app.get("/api/workouts/range", (_, res) => {
     db.Workout.find({})
       .limit(7)
       .then((dbWorkout) => {
-        console.log(dbWorkout);
         res.json(dbWorkout);
       })
       .catch((err) => {
@@ -56,4 +58,3 @@ module.exports = (app) => {
       });
   });
 };
-
