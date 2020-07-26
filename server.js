@@ -1,3 +1,4 @@
+//Volodymyr Petrytsya  07/26/20
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
@@ -10,7 +11,9 @@ app.use(express.urlencoded({ extended: true }, { useUnifiedTopology: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
-mongoose.connect("mongodb://localhost/workout", {
+let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workout"
+
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true
