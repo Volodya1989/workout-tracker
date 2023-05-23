@@ -33,8 +33,8 @@ This was a solo project comlepeted by Volodymyr Petrytsya.
 
 ## URL
 
-[Link to the deployed Workout Tracker Application](https://cryptic-shore-89598.herokuapp.com/)
-
+<!-- [Link to the deployed Workout Tracker Application](https://cryptic-shore-89598.herokuapp.com/)
+ -->
 ## MIT_License
 
 Copyright (c) [2020][volodymyr petrytsya]
